@@ -10,13 +10,17 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-i
 
 # Database configuration for production
 database_url = os.environ.get('DATABASE_URL')
+print(f"Original DATABASE_URL: {database_url}")
+
 if database_url:
     # Fix for Render's PostgreSQL URL format
     if database_url.startswith('postgres://'):
         database_url = database_url.replace('postgres://', 'postgresql://', 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+    print(f"Final DATABASE_URL: {database_url}")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///contact_messages.db'
+    print("Using SQLite database")
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
